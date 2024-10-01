@@ -19,14 +19,14 @@ The Grade Management System is a Java-based application designed to manage and t
 
 1. Clone the repository:
    Enter Command to Command Prompt:
-   git clone https://github.com/your-username/your-repository.git
+   git clone https://github.com/Subramanyam-A224/Java-Projects.git
 
 2. After cloning successfully, Navigate to the Desired Parent Directory:
    Open your command prompt and go to the parent directory where you want to clone your repository.
    cd path/to/your/desired/location
 
 3. Clone the Repository into the Specific Directory:
-   git clone https://github.com/your-username/your-repository.git desired-directory-name
+   git clone https://github.com/Subramanyam-A224/Java-Projects.git desired-directory-name
  
 4. Compile and Run the files:
    javac filename.java
