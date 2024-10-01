@@ -1,53 +1,6 @@
 import java.io.*;
 import java.util.*;
 
-// Student class with Serializable for saving the object state
-class Student implements Serializable {
-    private static final long serialVersionUID = 1L;
-    private String name;
-    private String studentId;
-    private Map<String, Double> grades; // Map to store subject and grade
-
-    public Student(String name, String studentId) {
-        this.name = name;
-        this.studentId = studentId;
-        this.grades = new HashMap<>();
-    }
-
-    // Getters
-    public String getName() {
-        return name;
-    }
-
-    public String getStudentId() {
-        return studentId;
-    }
-
-    public Map<String, Double> getGrades() {
-        return grades;
-    }
-
-    // Add a grade to the student
-    public void addGrade(String subject, double grade) {
-        grades.put(subject, grade);
-    }
-
-    // Calculate average grade
-    public double calculateAverage() {
-        double total = 0;
-        for (double grade : grades.values()) {
-            total += grade;
-        }
-        return grades.size() > 0 ? total / grades.size() : 0;
-    }
-
-    @Override
-    public String toString() {
-        return "Name: " + name + ", ID: " + studentId + ", Average Grade: " + calculateAverage();
-    }
-}
-
-// Main class for the Grade Management System
 public class GradeManagementSystem {
     private List<Student> students;
     private final String FILE_NAME = "students.ser";
@@ -57,13 +10,11 @@ public class GradeManagementSystem {
         loadStudents();
     }
 
-    // Method to add a student
     public void addStudent(String name, String studentId) {
         students.add(new Student(name, studentId));
         System.out.println("Student added successfully!");
     }
 
-    // Method to add a grade to a student
     public void addGrade(String studentId, String subject, double grade) {
         for (Student student : students) {
             if (student.getStudentId().equals(studentId)) {
@@ -75,7 +26,6 @@ public class GradeManagementSystem {
         System.out.println("Student not found!");
     }
 
-    // Generate report for all students
     public void generateReport() {
         for (Student student : students) {
             System.out.println(student);
@@ -86,7 +36,6 @@ public class GradeManagementSystem {
         }
     }
 
-    // Save students to file using serialization
     public void saveStudents() {
         try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(FILE_NAME))) {
             oos.writeObject(students);
@@ -96,18 +45,24 @@ public class GradeManagementSystem {
         }
     }
 
-    // Load students from file
+    @SuppressWarnings("unchecked")
     public void loadStudents() {
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(FILE_NAME))) {
-            students = (List<Student>) ois.readObject();
+            Object obj = ois.readObject();
+            if (obj instanceof List<?>) {
+                students = (List<Student>) obj;
+            } else {
+                System.out.println("Data format error: The file does not contain a List of Students.");
+            }
         } catch (FileNotFoundException e) {
             System.out.println("No previous data found. Starting fresh.");
         } catch (IOException | ClassNotFoundException e) {
             System.out.println("Error loading data: " + e.getMessage());
         }
     }
+    
+    
 
-    // Interactive menu
     public void startMenu() {
         Scanner scanner = new Scanner(System.in);
         while (true) {
@@ -119,7 +74,6 @@ public class GradeManagementSystem {
             System.out.println("5. Exit");
             System.out.print("Enter your choice: ");
             
-            // Handle potential input mismatch exceptions
             int choice = 0;
             try {
                 choice = Integer.parseInt(scanner.nextLine());
