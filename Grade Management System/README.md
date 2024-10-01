@@ -29,6 +29,5 @@ The Grade Management System is a Java-based application designed to manage and t
    git clone https://github.com/Subramanyam-A224/Java-Projects.git desired-directory-name
  
 4. Compile and Run the files:
-   javac filename.java
-   java filename
-
+   For Compilation: javac *.java
+   To Run: java -cp . GradeManagementSystem
